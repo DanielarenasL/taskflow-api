@@ -95,9 +95,30 @@ def update_team(id, field, new_data):
         if conn: 
             conn.close()
 
-# def get_members(team_id):
-#     conn = None
-#     cursor = None
+def get_members(team_id):
+    conn = None
+    cursor = None
+
+    try:
+        conn = connection()
+        if conn is None:
+            print("No se pudo establecer conexión a la base de datos")
+            return False
+
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM members WHERE team_id = %s", (team_id,))
+        members = cursor.fetchall()
+        print(members)
+        return members
+    except Exception as e:
+        print(f"Error al obtener miembros: {e}")
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+        
 
 
 def add_member(team_name, member_id):
@@ -116,6 +137,7 @@ def add_member(team_name, member_id):
         existing_team = cursor.fetchone()
         if not existing_team:
             print(f"El equipo '{team_name}' no existe ")
+            return False
 
         cursor.execute("SELECT * FROM members WHERE user_id = %s", (member_id,))
         existing_member = cursor.fetchone()
@@ -134,4 +156,40 @@ def add_member(team_name, member_id):
         if cursor:
             cursor.close()
         if conn: 
+            conn.close()
+
+def delete_member(team_name, member_id):
+    conn = None
+    cursor = None
+    try:
+        conn = connection()
+        if conn is None:
+            print("No se pudo establecer conexión a la base de datos")
+            return False
+
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT id FROM team WHERE name = %s", (team_name,))
+        existing_team = cursor.fetchone()
+        if not existing_team:
+            print(f"El equipo no existe ")
+            return False
+
+        cursor.execute("SELECT id FROM members WHERE user_id = %s AND team_id = %s", (member_id, existing_team[0],))
+        existing_user = cursor.fetchone()
+        if not existing_user:
+            print(f"El usuario no es miembro del equipo {team_name}")
+            return False
+
+        cursor.execute("DELETE FROM members WHERE user_id = %s AND team_id = %s", (member_id, existing_team[0],))
+        conn.commit()
+        print("miembro eliminado del equipo")
+        return True
+    except Exception as e:
+        print(f"Error al eliminar miembro: {e}")
+        return False
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
             conn.close()

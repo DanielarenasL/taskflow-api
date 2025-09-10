@@ -9,4 +9,8 @@ from teams import *
 # create_team("zapatos", "grupo de desarrollo", "84a43351-8298-452c-a5ae-46a90736bb5f")
 # get_teams()
 # update_team("0154dfb1-cf6d-455e-a537-4d7e86d7d34c", "name", "LosPerchas")
-add_member("LosPerchas", "4b9707e2-0de2-4a21-ad7f-a189734d7bff")
+# add_member("LosPerchas", "4b9707e2-0de2-4a21-ad7f-a189734d7bff")
+
+# delete_member("LosPerchas", "4b9707e2-0de2-4a21-ad7f-a189734d7bff")
+
+# get_members("de002b98-154d-44f6-97b4-2dd29c56738f")

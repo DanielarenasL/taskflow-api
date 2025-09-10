@@ -30,8 +30,6 @@ def create_user(username, email, first_name, last_name, role):
         return True
     except Exception as e:
         print(f"Error al crear usuario: {e}")
-        if conn:
-            conn.rollback()
         return False
     finally:
         if cursor:

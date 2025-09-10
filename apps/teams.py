@@ -1,4 +1,3 @@
-from typing import final
 from connection import connection
 
 def create_team(name, description, lead_user):
@@ -85,7 +84,7 @@ def update_team(id, field, new_data):
         cursor.execute(f"UPDATE team SET {field} = %s WHERE id = %s", (new_data, id,))
         conn.commit()
         print(f"El campo {field} se actualizo correctamente")
-        return 
+        return True
     except Exception as e:
         print(f"Error al actualizar el equipo: {e}")
         return False

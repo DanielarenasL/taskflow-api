@@ -77,9 +77,9 @@ def update_team(id, field, new_data):
             cursor.execute("SELECT * FROM team WHERE id = %s", (id,))
             existing_name = cursor.fetchone()
             print(existing_name)
-        if existing_name and existing_name[1] == new_data:
-            print(f"El nombre del equipo es el mismo que el actual")
-            return False
+            if existing_name and existing_name[1] == new_data:
+                print(f"El nombre del equipo es el mismo que el actual")
+                return False
         
         cursor.execute(f"UPDATE team SET {field} = %s WHERE id = %s", (new_data, id,))
         conn.commit()
@@ -117,7 +117,36 @@ def get_members(team_id):
         if conn:
             conn.close()
 
+def delete_team(team_id):
+    conn = None
+    cursor = None
+    try:
+        conn = connection()
+        if conn is None:
+            print("No se pudo establecer conexión a la base de datos")
+            return False
+
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT id FROM team WHERE id = %s", (team_id,))
+        existing_team = cursor.fetchone()
+
+        if not existing_team:
+            print("El equipo no existe")
+            return False
         
+        cursor.execute("DELETE FROM team WHERE id = %s", (team_id,))
+        conn.commit()
+        print("Equipo eliminado correctamente")
+        return True
+    except Exception as e:
+        print(f"Error al eliminar el equipo: {e}")
+        return False
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 
 
 def add_member(team_name, member_id):

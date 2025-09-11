@@ -74,7 +74,6 @@ def get_user_by_id(id):
             print("No se recibio un id valido")
             return False
 
-        
 
         print(id)
         
@@ -120,7 +119,7 @@ def update_user(id, data, new_data):
         cursor.execute(f"UPDATE users SET {data} = %s WHERE id = %s", (new_data, id,))
         conn.commit()
         print(f"El usuario de id {id} fue actualizado")
-        return 
+        return True 
 
     except Exception as e:
         print(f"Error al editar el usuario: {e}")

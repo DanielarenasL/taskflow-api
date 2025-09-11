@@ -97,7 +97,7 @@ def update_project(project_id, field, new_value):
         cursor.execute(f"UPDATE project SET {field} = %s WHERE id = %s", (new_value, project_id,))
         conn.commit()
         print(f"El campo {field} se actualizo correctamente")
-        return
+        return True
     except Exception as e:
         print(f"Error al actualizar el proyecto: {e}")
         return False

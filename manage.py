@@ -245,7 +245,7 @@ def delete_task_endpoint(id: str):
 
     return {"mensaje": "Tarea eliminada correctamente"}
 
-@app.post("/api/tasks/{id}/assign")
+@app.post("/api/tasks/{id}/assign/")
 async def assign_task_endpoint(id: str, request: Request):
 
     body = await request.json()
@@ -258,3 +258,5 @@ async def assign_task_endpoint(id: str, request: Request):
         raise HTTPException(status_code=404, detail="Error al asignar la tarea")
 
     return {"mensaje": "Tarea asignada correctamente"}
+
+#! 
